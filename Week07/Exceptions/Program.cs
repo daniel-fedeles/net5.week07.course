@@ -56,6 +56,8 @@ namespace Exceptions
             catch (BothArgsAreZeroException e)
             {
                 Console.WriteLine($"BothArgsAreZeroException {e.StackTrace}");
+
+                //throw;
             }
             catch (FormatException e)
             {
