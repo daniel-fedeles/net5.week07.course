@@ -22,6 +22,7 @@
         {
             decimal d = 1299.321312m;
             string newD = d.FormatWith2Dec();
+            string newD2 = DecimalExtensions.FormatWith2Dec(d);
             Console.WriteLine(newD);
 
             //int i = 10;
