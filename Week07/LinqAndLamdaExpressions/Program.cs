@@ -1,5 +1,6 @@
 ﻿namespace LinqAndLamdaExpressions
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Models;
@@ -8,20 +9,53 @@
     {
         private static void Main(string[] args)
         {
-            var allUsers = ReadUsers("users.json");
-            var allPosts = ReadPosts("posts.json");
+            List<User> allUsers = ReadUsers("users.json");
+            List<Post> allPosts = ReadPosts("posts.json");
+
+            #region Demo
 
             // 1 - find all users having email ending with ".net".
-            var users1 = from u in allUsers
-                where u.Email.EndsWith(".net")
-                select u;
+            var users1 = from user in allUsers
+                         where user.Email.EndsWith(".net")
+                         select user;
 
-            var users2 = allUsers.Where(x => x.Email.EndsWith(".net"));
+            var users11 = allUsers.Where(user => user.Email.EndsWith(".net"));
 
-            var emails = allUsers.Select(x => x.Email).ToList();
+            IEnumerable<string> userNames = from user in allUsers
+                                            select user.Name;
+
+            var userNames2 = allUsers.Select(user => user.Name);
+
+            foreach (var value in userNames2)
+            {
+                Console.WriteLine(value);
+            }
+
+            IEnumerable<Company> allCompanies = from user in allUsers
+                                                select user.Company;
+
+            var users2 = from user in allUsers
+                         orderby user.Email
+                         select user;
+
+            var netUser = allUsers.First(user => user.Email.Contains(".net"));
+            Console.WriteLine(netUser.Username);
+
+            #endregion
 
             // 2 - find all posts for users having email ending with ".net".
+            IEnumerable<int> usersIdsWithDotNetMails = from user in allUsers
+                                                       where user.Email.EndsWith(".net")
+                                                       select user.Id;
 
+            IEnumerable<Post> posts = from post in allPosts
+                                      where usersIdsWithDotNetMails.Contains(post.UserId)
+                                      select post;
+
+            foreach (var post in posts)
+            {
+                Console.WriteLine(post.Id + " " + "user: " + post.UserId);
+            }
 
             // 3 - print number of posts for each user.
 
@@ -48,9 +82,7 @@
             //    - create a new list: List<UserPosts>
             //    - insert in this list each user with his posts only
 
-
             // 11 - order users by zip code
-
 
             // 12 - order users by number of posts
         }
