@@ -33,7 +33,8 @@
             //Console.WriteLine(result);
 
             ////bool result2 = ExtensionMethods.IsGreaterThan(i, 100);
-            //bool result3 = i.IsGreaterThan(100);
+            int i = 200;
+            bool result3 = i.IsGreaterThan(100, 200);
         }
     }
 
@@ -42,6 +43,16 @@
         public static bool IsGreaterThan(this int a, int b)
         {
             if (a > b)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsGreaterThan(this int a, int b, int c)
+        {
+            if (a > b && a > c)
             {
                 return true;
             }
