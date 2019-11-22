@@ -31,6 +31,9 @@
 
             CallPrinter(printer, "Hello");
 
+            printer.Invoke("Hello 2");
+            printer("Hello 2");
+
             printer("Hello again");
         }
 
