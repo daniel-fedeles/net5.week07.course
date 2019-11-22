@@ -2,10 +2,45 @@
 
 namespace Exceptions
 {
+    using System.Collections.Generic;
+
     class Program
     {
         static void Main(string[] args)
         {
+            var list = new List<int> { 1, 2, 3, 5, -1, -1, -2, 4, 24, 4};
+
+            foreach (var elem in list)
+            {
+                try
+                {
+                    if (elem < 0)
+                    {
+                        throw new InvalidOperationException($"Elem is negative: {elem}");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+
+            try
+            {
+                foreach (var elem in list)
+                {
+                    if (elem < 0)
+                    {
+                        throw new InvalidOperationException($"Elem is negative: {elem}");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+
             //try
             //{
             //    EnterNumber();
@@ -16,7 +51,22 @@ namespace Exceptions
             //    Console.WriteLine(e.InnerException.Message);
             //}
 
-            ClassEx();
+            //ClassEx();
+        }
+
+        private static void PrintElem(int elem)
+        {
+            try
+            {
+                if (elem < 0)
+                {
+                    throw new InvalidOperationException($"Elem is negative: {elem}");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         public static void ClassEx()

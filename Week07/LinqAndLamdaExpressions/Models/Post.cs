@@ -1,4 +1,4 @@
-﻿namespace LinqAndLamdaExpressions
+﻿namespace LinqAndLamdaExpressions.Models
 {
     public class Post
     {
