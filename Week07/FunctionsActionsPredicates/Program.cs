@@ -1,15 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FunctionsActionsPredicates
+﻿namespace FunctionsActionsPredicates
 {
-    class Program
+    using System;
+    using System.Runtime.CompilerServices;
+
+    internal class Program
     {
-        static void Main(string[] args)
+        public delegate void Printer(string s);
+
+        private static void Main(string[] args)
         {
+            //PrintWithRed("Wantsome");
+
+            //PrintWithGreen("Wantsome");
+
+            Printer printer;
+
+            //if (DateTime.Now.Second % 2 == 0)
+            //{
+            //    printer = PrintWithRed;
+            //    printer += PrintWithGreen;
+            //}
+            //else
+            //{
+            //    printer = PrintWithGreen;
+            //    printer += PrintWithRed;
+            //}
+
+            printer = PrintWithGreen;
+            printer += PrintWithRed;
+
+            CallPrinter(printer, "Hello");
+
+            printer("Hello again");
+        }
+
+        public static void CallPrinter(Printer p, string value)
+        {
+            p(value);
+        }
+
+        public static void PrintWithRed(string value)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(value);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public static void PrintWithGreen(string value)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine(value);
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }
