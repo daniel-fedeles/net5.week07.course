@@ -29,7 +29,7 @@
             printer = PrintWithGreen;
             printer += PrintWithRed;
 
-            CallPrinter(printer, "Hello");
+            DelegateRunner(printer, "Hello");
 
             printer.Invoke("Hello 2");
             printer("Hello 2");
@@ -37,7 +37,7 @@
             printer("Hello again");
         }
 
-        public static void CallPrinter(Printer p, string value)
+        public static void DelegateRunner(Printer p, string value)
         {
             p(value);
         }
