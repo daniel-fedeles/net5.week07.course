@@ -177,6 +177,14 @@
 
             // 12 - order users by number of posts
 
+            var nrOfPostsForEachUser = allUsers.Join(allPosts, u => u.Id, p => p.UserId, (u, p) => new { u, p })
+                .GroupBy(@t => new { @t.u.Username, @t.p.UserId }, @t => @t.u)
+                .Select(all => new { user = all.Key, Posts = all, }).OrderBy(x => x.Posts.Count());
+
+            foreach (var n in nrOfPostsForEachUser)
+            {
+                Console.WriteLine(n.user.Username);
+            }
         }
 
         private static List<Post> ReadPosts(string file)
