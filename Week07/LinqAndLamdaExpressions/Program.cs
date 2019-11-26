@@ -71,6 +71,10 @@
             var ugn = allUsers.Where(allUser => allUser.Address.Geo.Lat < 0 && allUser.Address.Geo.Lng < 0)
                 .Select(allUser => allUser.Username);
 
+
+            var z = from user in allUsers
+                    where user.Address.Geo.Lat < 0 && user.Address.Geo.Lng < 0
+                    select user;
             //            foreach (var u in ugn)
             //            {
             //                Console.WriteLine(u);
@@ -102,16 +106,16 @@
 
             // 7 - select all addresses in a new List<Address>. print the list.
             List<Address> allAddresses = (allUsers.Select(us => us.Address)).ToList();
-            //            foreach (var allAddress in allAddresses)
-            //            {
-            //                Console.WriteLine(allAddress.Geo.Lat);
-            //                Console.WriteLine(allAddress.Geo.Lng);
-            //                Console.WriteLine(allAddress.City);
-            //                Console.WriteLine(allAddress.Street);
-            //                Console.WriteLine(allAddress.Suite);
-            //                Console.WriteLine(allAddress.Zipcode);
-            //                Console.WriteLine();
-            //        }
+            //                foreach (var allAddress in allAddresses)
+            //                {
+            //                    Console.WriteLine(allAddress.Geo.Lat);
+            //                    Console.WriteLine(allAddress.Geo.Lng);
+            //                    Console.WriteLine(allAddress.City);
+            //                    Console.WriteLine(allAddress.Street);
+            //                    Console.WriteLine(allAddress.Suite);
+            //                    Console.WriteLine(allAddress.Zipcode);
+            //                    Console.WriteLine();
+            //            }
 
             // 8 - print the user with min lat
             var minLat = (allAddresses.Select(add => add.Geo.Lat)).Min();
@@ -126,57 +130,42 @@
             //    - create a new list: List<UserPosts>
             //    - insert in this list each user with his posts only
 
-            var nrOfPostsa = allUsers.Join(allPosts, u => u.Id, p => p.UserId, (u, p) => new { u, p })
-                .GroupBy(@t => new { @t.u.Username, @t.p.UserId }, @t => @t.u)
-                .Select(all => new { userName = all.Key.Username, Posts = all.Count(), });
+            List<UserPosts> userPost = new List<UserPosts>();
+            var xxx = (from post in allPosts
+                       join user in allUsers on post.UserId equals user.Id
+                       group user by new
+                       {
+                           user,
+                           post
 
-
-
-            List<UserPosts> userPostses = new List<UserPosts>();
-
-
-
-
-            var nrOfUsers = (allUsers.Select(u => u.Id)).Count();
-
-            //            Console.WriteLine(nrOfUsers);
-
-            var xxx = from post in allPosts
-                      join user in allUsers on post.UserId equals user.Id
-                      group user by new
-                      {
-                          user,
-                          post
-
-                      }
+                       }
                 into allPostsForUser
-                      select new
-                      {
-                          allPostsForUser.Key.user,
-                          allPostsForUser.Key.post
-                      };
+                       select new
+                       {
+                           allPostsForUser.Key.user,
+                           allPostsForUser.Key.post
+                       }).ToList();
 
-
-            foreach (var nrOfPost in xxx)
+            foreach (var t in xxx)
             {
-                UserPosts up = new UserPosts();
-
-                up.User = nrOfPost.user;
-                up.Posts.Add(nrOfPost.post);
-                if (!userPostses.Contains(up))
-                {
-                    userPostses.Add(up);
-                }
-
-
-
-
+                var up = new UserPosts();
+                up.User = t.user;
+                up.Posts.Add(t.post);
+                userPost.Add(up);
             }
 
-            foreach (var up in userPostses)
+            foreach (var up in userPost)
             {
                 Console.WriteLine(up.User.Username);
-                Console.WriteLine(up.Posts.Count);
+
+                foreach (var p in up.Posts)
+                {
+                    Console.WriteLine(p.Body);
+                }
+
+                Console.WriteLine();
+                Console.WriteLine();
+
             }
 
 
